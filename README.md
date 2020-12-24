@@ -3,6 +3,11 @@
 ####### sheracoer #######
 #########################
 
+*You can map CRUD methods in your terminla for example:
+```
+http post http://127.0.0.1:8000/api-token-auth/ username=vitor password=123
+```
+
 # Django
 ## Django rest framework
 ###  Permissions
