@@ -77,7 +77,8 @@ class CreateTokenView(ObtainAuthToken):
 	renderred_classes = api_settings.DEFAULT_RENDERER_CLASSES
 
 ```
-To create it's serializer(AuthTokenSerializer) you shuld use Serializer instead of serializer beacuse you must authenticate email and password by authenticate class
+To create it's serializer(AuthTokenSerializer) you shuld use Serializer instead of serializer beacuse you must authenticate email and password by authenticate class. 
+By passing the username(email in here) and password to the authenticate you can authenticate a request
 ```
 from rest_framework import serializers
 
