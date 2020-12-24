@@ -20,3 +20,33 @@ Note: Don't forget that authentication by itself won't allow or disallow an inco
 The authentication schemes are always defined as a list of classes. REST framework will attempt to authenticate with each class in the list, and will set request.user and request.auth using the return value of the first class that successfully authenticates.
 If no class authenticates, request.user will be set to an instance of django.contrib.auth.models.AnonymousUser, and request.auth will be set to None.
 The value of request.user and request.auth for unauthenticated requests can be modified using the UNAUTHENTICATED_USER and UNAUTHENTICATED_TOKEN settings.
+#### You can also set the authentication scheme on a per-view or per-viewset basis, using the APIView class-based views.
+```
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+class ExampleView(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        content = {
+            'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+            'auth': unicode(request.auth),  # None
+        }
+        return Response(content)
+```
+Or, if you're using the @api_view decorator with function based views.
+```
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def example_view(request, format=None):
+    content = {
+        'user': unicode(request.user),  # `django.contrib.auth.User` instance.
+        'auth': unicode(request.auth),  # None
+    }
+    return Response(content)
+```
