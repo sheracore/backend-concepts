@@ -5,6 +5,7 @@
 
 * You can map CRUD methods in your terminla for example:
 ```
+self.user = create_user(email='private@sheracore.com',password='testpass',name='name')
 http post http://127.0.0.1:8000/api-token-auth/ username=vitor password=123
 ```
 # Django
