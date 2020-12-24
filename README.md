@@ -55,3 +55,53 @@ def example_view(request, format=None):
     }
     return Response(content)
 ```
+#### How to create token
+To authenticate users you should create token for each users when thay login and in other requestes by that users thay are autenticated.
+in django rest framework ObtainAuthToken do this, if your user customized so you should use ObtainAuthToken to create a view for creating token by email and password(custom user) instead of username and password.
+```
+from rest_framework import permissions, generics
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
+
+from user.serializers import UserSerializer, AuthTokenSerializer
+
+
+class CreateUserView(generics.CreateAPIView):
+	"""Create a new user in the system"""
+	serializer_class = UserSerializer
+
+
+class CreateTokenView(ObtainAuthToken):
+	"""Create a new auth token for user"""
+	serializer_class = AuthTokenSerializer
+	renderred_classes = api_settings.DEFAULT_RENDERER_CLASSES
+
+```
+To create it's serializer(AuthTokenSerializer)
+```
+class AuthTokenSerializer(serializers.Serializer):
+	"""Serializer for the user authentication object"""
+	email = serializers.CharField()
+	password = serializers.CharField(
+		style={'input_type': 'password'},
+		trim_whitespace=False
+		)
+
+	# attrs equals is evry fields that make up our serializers (email,password)
+	def validate(self, attrs):
+		"""Validate and authenticate the user"""
+		email = attrs.get('email')
+		password = attrs.get('password')
+		
+		user = authenticate(
+			request = self.context.get('request'),
+			username=email,
+			password=password
+			)
+		if not user:
+			msg = _('Unable to authenticate with provided credentials')
+			raise serializers.ValidationError(msg, code='authenticate')
+
+		attrs['user'] = user
+		return attrs
+```
