@@ -7,9 +7,14 @@
 ```
 http post http://127.0.0.1:8000/api-token-auth/ username=vitor password=123
 ```
-
 # Django
 ## Django rest framework
+### TestCase (TDD)
+After patch or put to update user or any other models you must refres db
+```
+self.user.refresh_from_db()
+```
+
 ###  Permissions
 Permissions are used to grant or deny access for different classes of users to different parts of the API.
 Before running the main body of the view each permission in the list is checked. If any permission check fails an exceptions.PermissionDenied or exceptions.NotAuthenticated exception will be raised, and the main body of the view will not run.
