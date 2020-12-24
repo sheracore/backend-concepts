@@ -5,12 +5,12 @@
 
 # Django
 ## Django rest framework
-* Permissions
+###  Permissions
 Permissions are used to grant or deny access for different classes of users to different parts of the API.
 Before running the main body of the view each permission in the list is checked. If any permission check fails an exceptions.PermissionDenied or exceptions.NotAuthenticated exception will be raised, and the main body of the view will not run.
 When the permissions checks fail either a "403 Forbidden" or a "401 Unauthorized" response will be returned, according to the following rules:
 
-* Authentication
+### Authentication
 Authentication is always run at the very start of the view, before the permission and throttling checks occur, and before any other code is allowed to proceed.
 The request.user property will typically be set to an instance of the contrib.auth package's User class.
 The request.auth property is used for any additional authentication information, for example, it may be used to represent an authentication token that the request was signed with.
