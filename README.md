@@ -77,8 +77,14 @@ class CreateTokenView(ObtainAuthToken):
 	renderred_classes = api_settings.DEFAULT_RENDERER_CLASSES
 
 ```
-To create it's serializer(AuthTokenSerializer)
+To create it's serializer(AuthTokenSerializer) you shuld use Serializer instead of serializer beacuse you must authenticate email and password by authenticate class
 ```
+from rest_framework import serializers
+
+from django.contrib.auth import get_user_model, authenticate
+# For outputing any text to the screen its good idea use this translation tool(gettext_lazy)
+from django.utils.translation import gettext_lazy as _
+
 class AuthTokenSerializer(serializers.Serializer):
 	"""Serializer for the user authentication object"""
 	email = serializers.CharField()
